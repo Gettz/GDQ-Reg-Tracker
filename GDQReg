@@ -2,7 +2,7 @@ import mechanicalsoup
 import time
 from twilio.rest import Client
 
-version = '0.1'
+version = '0.2'
 
 account_sid = "YUM"
 auth_token = "YUMYUM"
