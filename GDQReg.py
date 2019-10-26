@@ -16,7 +16,7 @@ browser.open("https://gamesdonequick.com/auth/login")
 browser.select_form('form[action="https://gamesdonequick.com/auth/login"]')
 
 browser["email"] = "techtml@gmail.com"
-browser["password"] = "test123456"
+browser["password"] = "#####"
 
 browser.submit_selected()
 
@@ -36,7 +36,7 @@ def parse():
 def test():
     sms = "The tracker is now running!"
     client.messages.create(
-        to="+15129021886",
+        to="+###",
         from_="",
         body=sms
     )
@@ -64,7 +64,7 @@ def main():
                 if int(maxim[:4]) < 3000:
                     sms = "There are now " + maxim + "registrants. Go to https://gamesdonequick.com/profile to sign up"
                     client.messages.create(
-                    to="+15129021886",
+                    to="+###",
                     from_="",
                     body=sms
                     )
