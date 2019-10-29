@@ -3,7 +3,7 @@ import time
 from twilio.rest import Client
 from tkinter import *
 
-version = '0.3'
+version = '0.5'
 
 account_sid = "AC239933d64979964a4144a2c6b19e20eb"
 auth_token = "28e9e243be9876944987cb65b41053cb"
@@ -61,41 +61,9 @@ def test():
     )
 
 
-#def check():
-#    first = True
-#    oldpercent = ''
-#    oldmax = ''
-#    try:
-#        while True:
-#            browser.refresh()
-#            percent, maxim = parse()
-#            if first:
-#                print("Currently registration is at " + percent + " of capacity")
-#                print("\nThe total number of registrants is: " + maxim)
-#                first = False
-#                oldpercent = percent
-#                oldmax = maxim
-#            if oldpercent != percent or oldmax != maxim:
-#                print("The number of registrants has changed!")
-#                print("Registration total is now at: " + maxim)
-#                oldpercent = percent
-#                oldmax = maxim
-#                if int(maxim[:4]) < 3006:
-#                    sms = "There are now " + maxim + "registrants. Go to https://gamesdonequick.com/profile to sign up"
-#                    client.messages.create(
-#                        to="+15129021886",
-#                        from_="+17734668036",
-#                        body=sms
-#                    )
-#            time.sleep(5)
-#    except KeyboardInterrupt:
-#        print("Shutting down in 5 secs")
-#        time.sleep(5)
-#        exit()
-
 def check():
-    global showhide
     global first
+    global running
     first = FALSE
     print("checking")
     if running:
