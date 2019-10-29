@@ -5,8 +5,8 @@ from tkinter import *
 
 version = '0.5'
 
-account_sid = "AC239933d64979964a4144a2c6b19e20eb"
-auth_token = "28e9e243be9876944987cb65b41053cb"
+account_sid = "YUM"
+auth_token = "YUMYUM"
 
 client = Client(account_sid, auth_token)
 
