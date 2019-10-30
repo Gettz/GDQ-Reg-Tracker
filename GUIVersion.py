@@ -2,20 +2,27 @@ import mechanicalsoup
 import time
 from twilio.rest import Client
 from tkinter import *
+import os
 
-version = '0.5'
+version = '1.0'
 
-account_sid = "YUM"
-auth_token = "YUMYUM"
+account_sid = "ENDLESS"
+auth_token = "TRASH"
 
 client = Client(account_sid, auth_token)
 
 browser = mechanicalsoup.StatefulBrowser()
 
-showhide = TRUE
 running = FALSE
-first = TRUE
-idx = 0
+oldmax = 0
+
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
 
 def login():
@@ -55,16 +62,15 @@ def test():
     percent, maxim = parse()
     sms = "SMS Messaging is working! There are currently: " + maxim + "registrants"
     client.messages.create(
-        to="+15129021886",
-        from_="+17734668036",
+        to="+FAKE",
+        from_="+NUMBER",
         body=sms
     )
 
 
 def check():
-    global first
     global running
-    first = FALSE
+    global oldmax
     print("checking")
     if running:
             browser.refresh()
@@ -82,14 +88,15 @@ def check():
             percenttext.insert(END, percent + " of total")
             percenttext.configure(state="disabled")
 
-            if int(maxim[:4]) < 3006:
+            if int(maxim[:4]) < 3006 and int(maxim[:4]) != oldmax:
                 sms = "There are now " + maxim + "registrants. Go to https://gamesdonequick.com/profile to sign up"
                 client.messages.create(
-                    to="+15129021886",
-                    from_="+17734668036",
+                    to="+FAKE",
+                    from_="+NUMBER",
                     body=sms
                 )
             print("checked")
+            oldmax = int(maxim[:4])
     window.after(1000, check)
 
 
@@ -104,43 +111,33 @@ def create():
 
     startbutton.place(x=250, y=265)
 
-#    stopbutton = Button(window, text="Stop", width=9, command=login, state=NORMAL)
-#    stopbutton.place(x=150, y=250)
-
     testbutton.place(x=50, y=265)
 
 
-def startstop():
-    global showhide
-    global first
+def start():
     global running
+    running = TRUE
+    startbutton.place_forget()
+    testbutton.place_forget()
+    stopbutton.place(x=250, y=265)
+    check()
 
-    if showhide:
-        if first:
-            running = TRUE
-            testbutton.place_forget()
-            startbutton.configure(text="Stop")
-            showhide = FALSE
-            check()
-        else:
-            testbutton.place_forget()
-            startbutton.configure(text="Stop")
-            showhide = FALSE
-            running = FALSE
-    else:
-        testbutton.place(x=50, y=265)
-        startbutton.configure(text="Start")
-        showhide = TRUE
-        running = TRUE
-        check()
+
+def stop():
+    global running
+    running = FALSE
+    stopbutton.place_forget()
+    testbutton.place(x=50, y=265)
+    startbutton.place(x=250, y=265)
 
 
 window = Tk()
 window.title("GDQ Registration Tracker")
 window.configure(background="teal")
 window.geometry("400x300")
+window.resizable(FALSE, FALSE)
 
-logo = PhotoImage(file="GDQLogo2.png")
+logo = PhotoImage(file=resource_path("GDQLogo2.png"))
 Label(window, image=logo, bg="teal").grid(row=0, column=2, sticky="news", columnspan=2, rowspan=2, padx=5, pady=5)
 
 Label(window, text="Email:           ", bg="teal", fg="white", font="none 12 bold").grid(row=0, column=0, sticky="W")
@@ -157,7 +154,9 @@ subbutton.grid(row=3, column=2, columnspan=2, sticky="EW", padx=5)
 output = Text(window, width=15, height=1, background="teal", state="disabled", borderwidth=0, font="none 12 bold")
 output.grid(row=3, column=0, columnspan=2, sticky="EW", padx=5)
 
-startbutton = Button(window, text="Start", width=9, command=startstop, state=NORMAL)
+startbutton = Button(window, text="Start", width=9, command=start, state=NORMAL)
+
+stopbutton = Button(window, text="Stop", width=9, command=stop, state=NORMAL)
 
 testbutton = Button(window, text="Test SMS", width=9, command=test, state=NORMAL)
 
@@ -168,4 +167,3 @@ percenttext = Text(window, width=0, height=1, background="teal", state="disabled
 percenttext.grid(row=7, column=0, columnspan=4, padx=20, pady=20)
 
 mainloop()
-
